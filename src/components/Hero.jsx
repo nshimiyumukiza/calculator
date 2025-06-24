@@ -3,7 +3,14 @@ import { useState } from "react"
 const Hero = () => {
     const [input, setInput] = useState("");
 
+    const isOperetor = (val) => ["+","*","-","/"].includes(val);
+
     const handleClick = (value) =>{
+        const lastChar = input.slice(-1);
+        if(isOperetor(value) && (input === "" || isOperetor(lastChar))) return;
+      
+        if(value === "." && (lastChar === "." || input.split(/[\+\-\*\/]/).pop().includes(".")))
+            return
         setInput(input +value)
 
     }
