@@ -1,13 +1,13 @@
-import Hero from "./components/Hero"
+import Hero from "./components/Hero";
+import Head from "./components/Head";
 
 function App() {
- 
-
-  return (
-    <>
-<Hero />
+  return(
+    <div>
+    <Head />
+    <Hero />
       
-    </>
+    </div>
   )
 }
 

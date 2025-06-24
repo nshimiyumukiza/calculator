@@ -1,14 +1,35 @@
+import { useEffect } from "react";
 import { useState } from "react"
 
 const Hero = () => {
     const [input, setInput] = useState("");
+
+// add keyboard support
+useEffect(() => {
+    const handleKeyPress = (event) => {
+        const {key} = event;
+        if(!isNaN(key) || ["+","-","*","/"].includes(key)){
+            handleClick(key);
+        }else 
+            if(key === "Enter"){
+                caluclate();
+            } else if (key === "Backspace"){
+                setInput((prev) => prev.slice(0, -1));
+            } else if(key.toLowerCase() === "c"){
+                clear();
+            }
+         
+    }
+    window.addEventListener( "keydown",handleKeyPress);
+    return () => window.removeEventListener( "keydown",handleKeyPress);
+},[input])
+
 
     const isOperetor = (val) => ["+","*","-","/"].includes(val);
 
     const handleClick = (value) =>{
         const lastChar = input.slice(-1);
         if(isOperetor(value) && (input === "" || isOperetor(lastChar))) return;
-      
         if(value === "." && (lastChar === "." || input.split(/[\+\-\*\/]/).pop().includes(".")))
             return
         setInput(input +value)
@@ -28,7 +49,7 @@ const Hero = () => {
         setInput("");
     }
     return(
-        <div className=" bg-gray-800 max-w-md mx-auto px-4 py-3 mt-20">
+        <div className=" bg-gray-800 max-w-md mx-auto px-4 py-3 ">
             <div className="bg-gray-700 p-4 rounded-xl shadow-md w-full">
                 <div className="mb-4">
                     <input value={input} className="w-full text-right text-2xl rounded-md bg-gray-50 pr-3" readOnly type="text" />
